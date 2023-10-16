@@ -87,6 +87,7 @@ def run_simulation(input_filename,
                    response_file='../larndsim/bin/response_44.npy',
                    light_lut_filename='../larndsim/bin/lightLUT.npz',
                    light_det_noise_filename='../larndsim/bin/light_noise-module0.npy',
+                   physics_constants='../larndsim/consts/physics.yaml',
                    bad_channels=None,
                    n_tracks=None,
                    pixel_thresholds_file=None):
@@ -105,6 +106,8 @@ def run_simulation(input_filename,
             field responses. Defaults to ../larndsim/bin/response_44.npy.
         light_lut_file (str, optional): path of the Numpy array containing the light
             look-up table. Defaults to ../larndsim/bin/lightLUT.npy.
+        physics_constants (str): path of the YAML file containing
+            the physics constants
         bad_channels (str, optional): path of the YAML file containing the channels to be
             disabled. Defaults to None
         n_tracks (int, optional): number of tracks to be simulated. Defaults to None
@@ -123,12 +126,13 @@ def run_simulation(input_filename,
     print("Batch size:", BATCH_SIZE)
     print("Pixel layout file:", pixel_layout)
     print("Detector properties file:", detector_properties)
+    print("Physics constants file:", physics_constants)
     print("edep-sim input file:", input_filename)
     print("Response file:", response_file)
     if bad_channels:
         print("Disabled channel list: ", bad_channels)
     RangePush("load_detector_properties")
-    consts.load_properties(detector_properties, pixel_layout)
+    consts.load_properties(detector_properties, pixel_layout, physics_constants)
     from larndsim.consts import light, detector, physics
     RangePop()
 
@@ -215,7 +219,7 @@ def run_simulation(input_filename,
     # and the position and number of electrons after drifting (drifting module)
     print("Quenching electrons..." , end="")
     start_quenching = time()
-    quenching.quench[BPG,TPB](tracks, physics.BIRKS)
+    quenching.quench[BPG,TPB](tracks, physics.QUENCHING_MODEL)
     end_quenching = time()
     print(f" {end_quenching-start_quenching:.2f} s")
 
@@ -527,7 +531,7 @@ def run_simulation(input_filename,
                                output_filename,
                                event_times[np.unique(event_id_list_batch)],
                                is_first_event=last_time==0,
-                               light_trigger_times=event_times[np.unique(event_id_list_batch)] if not light.LIGHT_SIMULATED else light_start_time_list_batch + light_trigger_idx_list_batch * light.LIGHT_TICK_SIZE,
+                               light_trigger_times=cp.zeros_like(event_times[np.unique(event_id_list_batch)]) if not light.LIGHT_SIMULATED else light_start_time_list_batch + light_trigger_idx_list_batch * light.LIGHT_TICK_SIZE,
                                light_trigger_event_id=np.unique(event_id_list_batch) if not light.LIGHT_SIMULATED else light_event_id_list_batch,
                                light_trigger_modules=np.ones(len(np.unique(event_id_list_batch))) if not light.LIGHT_SIMULATED else light_trigger_modules,
                                bad_channels=bad_channels)

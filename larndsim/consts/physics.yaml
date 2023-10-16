@@ -1,0 +1,7 @@
+box_alpha: 0.93
+box_beta: 0.207 # (kV/cm)(g/cm^2)/MeV
+birks_Ab: 0.800
+birks_kb: 0.0486 # (kV/cm)(g/cm^2)/MeV
+e: 1.602e-19 # C
+w_ion: 23.6e-6 # MeV
+quenching_model: 2 # 1: box, 2: birks
