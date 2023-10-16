@@ -84,6 +84,9 @@ def run_simulation(input_filename,
                    pixel_layout,
                    detector_properties,
                    output_filename,
+                   pdg_label,
+                   efield_throw,
+                   trans_diff_throw,
                    response_file='../larndsim/bin/response_44.npy',
                    light_lut_filename='../larndsim/bin/lightLUT.npz',
                    light_det_noise_filename='../larndsim/bin/light_noise-module0.npy',
@@ -239,6 +242,7 @@ def run_simulation(input_filename,
         lightLUT.calculate_light_incidence[BPG,TPB](tracks, lut, light_sim_dat, track_light_voxel)
         print(f" {time()-start_light_time:.2f} s")
 
+
     with h5py.File(output_filename, 'a') as output_file:
         output_file.create_dataset("tracks", data=tracks)
         if light.LIGHT_SIMULATED:
@@ -247,6 +251,23 @@ def run_simulation(input_filename,
             output_file.create_dataset("trajectories", data=trajectories)
         if input_has_vertices:
             output_file.create_dataset("vertices", data=vertices)
+
+        # Add particle label + det syst throw value
+        pdg_dtype = np.dtype([("eventID","u4"), ("pdg","u4")])
+        pdgs = np.empty(len(vertices), dtype=pdg_type)
+        throw_vals_dtype = np.dtype([("eventID","u4"), ("efield","f4"), ("trans_diffusion","f4")])
+        throw_vals = np.empty(len(vertices), dtype=throw_vals_dtype)
+
+        for i_vtx, vtx in enumerate(vertices):
+            pdgs[i_vtx]["eventID"] = vtx["eventID"]
+            pdgs[i_vtx]["pdg"] = pdg_label
+
+            throw_vals[i_vtx]["eventID"] = vtx["eventID"]
+            throw_vals[i_vtx]["efield"] = efield_throw
+            throw_vals[i_vtx]["trans_diffusion"] = trans_diff_throw
+
+        output_file.create_dataset("pdg_labels", data=pdgs)
+        output_file.create_dataset("det_syst_throws", data=throw_vals)
 
     # create a lookup table that maps between unique event ids and the segments in the file
     tot_evids = np.unique(tracks['eventID'])
