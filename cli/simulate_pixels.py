@@ -293,8 +293,8 @@ def run_simulation(input_filename,
         # output_file.create_dataset("tracks", data=tracks)
         if light.LIGHT_SIMULATED:
             output_file.create_dataset('light_dat', data=light_sim_dat)
-        if input_has_trajectories:
-            output_file.create_dataset("trajectories", data=trajectories)
+        # if input_has_trajectories:
+        #     output_file.create_dataset("trajectories", data=trajectories)
         if input_has_vertices:
             output_file.create_dataset("vertices", data=vertices)
 
