@@ -1,6 +1,7 @@
 """
 Set physics constants
 """
+import yaml
 
 ## Physical params
 #: Recombination :math:`\alpha` constant for the Box model
@@ -19,3 +20,32 @@ W_ION = 23.6e-6
 ## Quenching parameters
 BOX = 1
 BIRKS = 2
+QUENCHING_MODEL = BIRKS
+
+def set_physics(physics_file):
+    """
+    The function loads the physics constants YAML file
+    and stores the constants as global variables
+
+    Args:
+        physics_file (str): physics constants YAML filename
+    """
+    global BOX_ALPHA
+    global BOX_BETA
+    global BIRKS_Ab
+    global BIRST_kb
+    global E_CHARGE
+    global W_ION
+    global QUENCHING_MODEL
+
+    with open(physics_file) as pf:
+        phys = yaml.load(pf, Loader=yaml.FullLoader)
+
+    BOX_ALPHA = phys["box_alpha"]
+    BOX_BETA = phys["box_beta"]
+    BIRKS_Ab = phys["birks_Ab"]
+    BIRKS_kb = phys["birks_kb"]
+    E_CHARGE = phys["e"]
+    W_ION = phys["w_ion"]
+    QUENCHING_MODEL = phys["quenching_model"]
+
