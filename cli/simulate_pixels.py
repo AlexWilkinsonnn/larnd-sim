@@ -90,9 +90,6 @@ def run_simulation(input_filename,
                    detector_properties,
                    output_filename,
                    pdg_label,
-                   efield_throw,
-                   trans_diff_throw,
-                   lifetime_throw,
                    response_file='../larndsim/bin/response_44.npy',
                    light_lut_filename='../larndsim/bin/lightLUT.npz',
                    light_det_noise_filename='../larndsim/bin/light_noise-module0.npy',
@@ -310,9 +307,9 @@ def run_simulation(input_filename,
             pdgs[i_vtx]["pdg"] = pdg_label
 
             throw_vals[i_vtx]["eventID"] = vtx["eventID"]
-            throw_vals[i_vtx]["efield"] = efield_throw
-            throw_vals[i_vtx]["trans_diffusion"] = trans_diff_throw
-            throw_vals[i_vtx]["lifetime"] = lifetime_throw
+            throw_vals[i_vtx]["efield"] = detector.E_FIELD
+            throw_vals[i_vtx]["trans_diffusion"] = detector.TRAN_DIFF
+            throw_vals[i_vtx]["lifetime"] = detector.ELECTRON_LIFETIME
 
         output_file.create_dataset("pdg_labels", data=pdgs)
         output_file.create_dataset("det_syst_throws", data=throw_vals)
