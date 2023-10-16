@@ -254,7 +254,7 @@ def run_simulation(input_filename,
 
         # Add particle label + det syst throw value
         pdg_dtype = np.dtype([("eventID","u4"), ("pdg","u4")])
-        pdgs = np.empty(len(vertices), dtype=pdg_type)
+        pdgs = np.empty(len(vertices), dtype=pdg_dtype)
         throw_vals_dtype = np.dtype([("eventID","u4"), ("efield","f4"), ("trans_diffusion","f4")])
         throw_vals = np.empty(len(vertices), dtype=throw_vals_dtype)
 
