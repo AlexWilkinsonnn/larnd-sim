@@ -281,11 +281,11 @@ def export_to_hdf5(event_id_list,
         packets_mc_ds['fraction'] = packets_frac
 
         with h5py.File(filename, 'a') as f:
-            if is_first_event:
-                f.create_dataset("mc_packets_assn", data=packets_mc_ds, maxshape=(None,))
-            else:
-                f['mc_packets_assn'].resize((f['mc_packets_assn'].shape[0] + packets_mc_ds.shape[0]), axis=0)
-                f['mc_packets_assn'][-packets_mc_ds.shape[0]:] = packets_mc_ds
+            # if is_first_event:
+            #     f.create_dataset("mc_packets_assn", data=packets_mc_ds, maxshape=(None,))
+            # else:
+            #     f['mc_packets_assn'].resize((f['mc_packets_assn'].shape[0] + packets_mc_ds.shape[0]), axis=0)
+            #     f['mc_packets_assn'][-packets_mc_ds.shape[0]:] = packets_mc_ds
 
             f['configs'].attrs['vdrift'] = detector.V_DRIFT
             f['configs'].attrs['long_diff'] = detector.LONG_DIFF

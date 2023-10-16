@@ -31,7 +31,7 @@ BATCH_SIZE = 4000 # track segments
 EVENT_BATCH_SIZE = 2 # tpcs
 #WRITE_BATCH_SIZE = 1000 # batches
 WRITE_BATCH_SIZE = 1000 # batches
-EVENT_SEPARATOR = 'spillID' # can be 'eventID' or 'spillID'
+EVENT_SEPARATOR = 'eventID' # can be 'eventID' or 'spillID'
 
 LOGO = """
   _                      _            _
@@ -290,7 +290,7 @@ def run_simulation(input_filename,
 
     # prep output file with truth datasets
     with h5py.File(output_filename, 'a') as output_file:
-        output_file.create_dataset("tracks", data=tracks)
+        # output_file.create_dataset("tracks", data=tracks)
         if light.LIGHT_SIMULATED:
             output_file.create_dataset('light_dat', data=light_sim_dat)
         if input_has_trajectories:
@@ -298,24 +298,24 @@ def run_simulation(input_filename,
         if input_has_vertices:
             output_file.create_dataset("vertices", data=vertices)
 
-    pdg_dtype = np.dtype([("eventID","u4"), ("pdg","u4")])
-    pdgs = np.empty(len(vertices), dtype=pdg_dtype)
-    throw_vals_dtype = np.dtype(
-        [("eventID","u4"), ("efield","f4"), ("trans_diffusion","f4"), ("lifetime","f4")]
-    )
-    throw_vals = np.empty(len(vertices), dtype=throw_vals_dtype)
+        pdg_dtype = np.dtype([("eventID","u4"), ("pdg","u4")])
+        pdgs = np.empty(len(vertices), dtype=pdg_dtype)
+        throw_vals_dtype = np.dtype(
+            [("eventID","u4"), ("efield","f4"), ("trans_diffusion","f4"), ("lifetime","f4")]
+        )
+        throw_vals = np.empty(len(vertices), dtype=throw_vals_dtype)
 
-    for i_vtx, vtx in enumerate(vertices):
-        pdgs[i_vtx]["eventID"] = vtx["eventID"]
-        pdgs[i_vtx]["pdg"] = pdg_label
+        for i_vtx, vtx in enumerate(vertices):
+            pdgs[i_vtx]["eventID"] = vtx["eventID"]
+            pdgs[i_vtx]["pdg"] = pdg_label
 
-        throw_vals[i_vtx]["eventID"] = vtx["eventID"]
-        throw_vals[i_vtx]["efield"] = efield_throw
-        throw_vals[i_vtx]["trans_diffusion"] = trans_diff_throw
-        throw_vals[i_vtx]["lifetime"] = lifetime_throw
+            throw_vals[i_vtx]["eventID"] = vtx["eventID"]
+            throw_vals[i_vtx]["efield"] = efield_throw
+            throw_vals[i_vtx]["trans_diffusion"] = trans_diff_throw
+            throw_vals[i_vtx]["lifetime"] = lifetime_throw
 
-    output_file.create_dataset("pdg_labels", data=pdgs)
-    output_file.create_dataset("det_syst_throws", data=throw_vals)
+        output_file.create_dataset("pdg_labels", data=pdgs)
+        output_file.create_dataset("det_syst_throws", data=throw_vals)
 
     # create a lookup table that maps between unique event ids and the segments in the file
     tot_evids = np.unique(tracks[EVENT_SEPARATOR])
