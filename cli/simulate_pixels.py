@@ -287,7 +287,7 @@ def run_simulation(input_filename,
 
     # prep output file with truth datasets
     with h5py.File(output_filename, 'a') as output_file:
-        # output_file.create_dataset("tracks", data=tracks)
+        output_file.create_dataset("tracks", data=tracks)
         if light.LIGHT_SIMULATED:
             output_file.create_dataset('light_dat', data=light_sim_dat)
         # if input_has_trajectories:
