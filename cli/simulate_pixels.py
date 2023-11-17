@@ -164,6 +164,41 @@ def run_simulation(input_filename,
             print("Input file does not have true vertices info")
             input_has_vertices = False
 
+        try:
+            fd_deps = np.array(f['fd_deps'])
+            input_has_fd_deps = True
+        except KeyError:
+            print("Input file does not have fd_deps")
+            input_has_fd_deps = False
+
+        try:
+            fd_vertices = np.array(f['fd_vertices'])
+            input_has_fd_vertices = True
+        except KeyError:
+            print("Input file does not have fd_vertices")
+            input_has_fd_vertices = False
+
+        try:
+            lepton = np.array(f['lepton'])
+            input_has_lepton = True
+        except KeyError:
+            print("Input file does not have lepton")
+            input_has_lepton = False
+
+        try:
+            nd_paramreco = np.array(f['nd_paramreco'])
+            input_has_nd_paramreco = True
+        except KeyError:
+            print("Input file does not have nd_paramreco")
+            input_has_nd_paramreco = False
+
+        try:
+            primaries = np.array(f['primaries'])
+            input_has_primaries = True
+        except KeyError:
+            print("Input file does not have primaries")
+            input_has_primaries = False
+
     RangePop()
 
     # Makes an empty array to store data from lightlut
@@ -243,6 +278,16 @@ def run_simulation(input_filename,
             output_file.create_dataset("trajectories", data=trajectories)
         if input_has_vertices:
             output_file.create_dataset("vertices", data=vertices)
+        if input_has_fd_deps:
+            output_file.create_dataset("fd_deps", data=fd_deps)
+        if input_has_fd_vertices:
+            output_file.create_dataset("fd_vertices", data=fd_vertices)
+        if input_has_lepton:
+            output_file.create_dataset("lepton", data=lepton)
+        if input_has_nd_paramreco:
+            output_file.create_dataset("nd_paramreco", data=nd_paramreco)
+        if input_has_primaries:
+            output_file.create_dataset("primaries", data=primaries)
 
     # create a lookup table that maps between unique event ids and the segments in the file
     tot_evids = np.unique(tracks['eventID'])
