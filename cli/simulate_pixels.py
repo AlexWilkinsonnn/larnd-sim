@@ -132,6 +132,10 @@ def run_simulation(input_filename,
     from larndsim.consts import light, detector, physics
     RangePop()
 
+    # print(np.min(detector.TPC_BORDERS[:,0,:]), np.max(detector.TPC_BORDERS[:, 0, :]))
+    # print(np.min(detector.TPC_BORDERS[:,1,:]), np.max(detector.TPC_BORDERS[:, 1, :]))
+    # print(np.min(detector.TPC_BORDERS[:,2,:]), np.max(detector.TPC_BORDERS[:, 2, :]))
+
     RangePush("load_larndsim_modules")
     # Here we load the modules after loading the detector properties
     # maybe can be implemented in a better way?
