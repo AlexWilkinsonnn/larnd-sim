@@ -249,6 +249,23 @@ def run_simulation(input_filename,
     TPB = 256
     BPG = ceil(tracks.shape[0] / TPB)
 
+    # Recording which FD depos are relevant for detector response pairs
+    min_ndlar_x = np.min(detector.TPC_BORDERS[:, 0, :])
+    max_ndlar_x = np.max(detector.TPC_BORDERS[:, 0, :])
+    min_ndlar_y = np.min(detector.TPC_BORDERS[:, 1, :])
+    max_ndlar_y = np.max(detector.TPC_BORDERS[:, 1, :])
+    min_ndlar_z = np.min(detector.TPC_BORDERS[:, 2, :])
+    max_ndlar_z = np.max(detector.TPC_BORDERS[:, 2, :])
+    for track, fd_dep in zip(tracks, fd_deps):
+        if (
+            (min_ndlar_x - 2e-2) <= track["x"] <= (max_ndlar_x + 2e-2) and
+            (min_ndlar_y - 2e-2) <= track["y"] <= (max_ndlar_y + 2e-2) and
+            (min_ndlar_z - 2e-2) <= track["z"] <= (max_ndlar_z + 2e-2)
+        ):
+            fd_dep["outsideNDLAr"] = 0
+        else:
+            fd_dep["outsideNDLAr"] = 1
+
     print("******************\nRUNNING SIMULATION\n******************")
     # We calculate the number of electrons after recombination (quenching module)
     # and the position and number of electrons after drifting (drifting module)
