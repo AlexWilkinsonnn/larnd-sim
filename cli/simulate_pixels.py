@@ -94,6 +94,7 @@ def run_simulation(input_filename,
                    light_lut_filename='../larndsim/bin/lightLUT.npz',
                    light_det_noise_filename='../larndsim/bin/light_noise-module0.npy',
                    physics_constants='../larndsim/consts/physics.yaml',
+                   electronics_constants='../larndsim/consts/electronics.yaml', 
                    bad_channels=None,
                    n_tracks=None,
                    pixel_thresholds_file=None):
@@ -114,6 +115,8 @@ def run_simulation(input_filename,
             look-up table. Defaults to ../larndsim/bin/lightLUT.npy.
         physics_constants (str): path of the YAML file containing
             the physics constants
+        physics_constants (str): path of the YAML file containing
+            the electronics constants
         bad_channels (str, optional): path of the YAML file containing the channels to be
             disabled. Defaults to None
         n_tracks (int, optional): number of tracks to be simulated. Defaults to None
@@ -135,6 +138,7 @@ def run_simulation(input_filename,
     print("Pixel layout file:", pixel_layout)
     print("Detector properties file:", detector_properties)
     print("Physics constants file:", physics_constants)
+    print("Electronics constants file:", electronics_constants)
     print("edep-sim input file:", input_filename)
     print("Response file:", response_file)
     if bad_channels:
@@ -147,8 +151,10 @@ def run_simulation(input_filename,
     RangePop()
 
     RangePush("load_detector_properties")
-    consts.load_properties(detector_properties, pixel_layout, physics_constants)
-    from larndsim.consts import light, detector, physics
+    consts.load_properties(
+        detector_properties, pixel_layout, physics_constants, electronics_constants
+    )
+    from larndsim.consts import light, detector, physics, electronics
     RangePop()
 
     RangePush("load_larndsim_modules")

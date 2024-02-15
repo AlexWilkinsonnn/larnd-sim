@@ -20,41 +20,26 @@ from .pixels_from_track import id2pixel
 
 from .consts.units import mV, e
 from .consts import units
+from .consts import electronics
 
 #: Maximum number of ADC values stored per pixel
-MAX_ADC_VALUES = 10
-#: Discrimination threshold in e-
-DISCRIMINATION_THRESHOLD = 7e3 * e
-#: ADC hold delay in clock cycles
-ADC_HOLD_DELAY = 15
-#: ADC busy delay in clock cycles
-ADC_BUSY_DELAY = 9
-#: Reset time in clock cycles
-RESET_CYCLES = 1
-#: Clock cycle time in :math:`\mu s`
-CLOCK_CYCLE = 0.1
-#: Clock rollover / reset time in larpix clock ticks
-ROLLOVER_CYCLES = 2**31
-#: Front-end gain in :math:`mV/e-`
-GAIN = 4 * mV / (1e3 * e)
-#: Buffer risetime in :math:`\mu s` (set >0 to include buffer response simulation)
-BUFFER_RISETIME = 0.100
-#: Common-mode voltage in :math:`mV`
-V_CM = 288 * mV
-#: Reference voltage in :math:`mV`
-V_REF = 1300 * mV
-#: Pedestal voltage in :math:`mV`
-V_PEDESTAL = 580 * mV
-#: Number of ADC counts
-ADC_COUNTS = 2**8
-#: Reset noise in e-
-RESET_NOISE_CHARGE = 900 * e
-#: Uncorrelated noise in e-
-UNCORRELATED_NOISE_CHARGE = 500 * e
-#: Discriminator noise in e-
-DISCRIMINATOR_NOISE = 650 * e
-#: Average time between events in microseconds
-EVENT_RATE = 100000 # 10Hz
+MAX_ADC_VALUES = electronics.MAX_ADC_VALUES
+DISCRIMINATION_THRESHOLD = electronics.DISCRIMINATION_THRESHOLD
+ADC_HOLD_DELAY = electronics.ADC_HOLD_DELAY
+ADC_BUSY_DELAY = electronics.ADC_BUSY_DELAY
+RESET_CYCLES = electronics.RESET_CYCLES
+CLOCK_CYCLE = electronics.CLOCK_CYCLE
+ROLLOVER_CYCLES = electronics.ROLLOVER_CYCLES
+GAIN = electronics.GAIN
+BUFFER_RISETIME = electronics.BUFFER_RISETIME
+V_CM = electronics.V_CM
+V_REF = electronics.V_REF
+V_PEDESTAL = electronics.V_PEDESTAL
+ADC_COUNTS = electronics.ADC_COUNTS
+RESET_NOISE_CHARGE = electronics.RESET_NOISE_CHARGE
+UNCORRELATED_NOISE_CHARGE = electronics.UNCORRELATED_NOISE_CHARGE
+DISCRIMINATOR_NOISE = electronics.DISCRIMINATOR_NOISE
+EVENT_RATE = electronics.EVENT_RATE
 
 import logging
 logging.basicConfig()

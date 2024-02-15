@@ -1,0 +1,17 @@
+max_adc_values: 10
+discrimination_threshold: 7000 # e-
+adc_hold_delay: 15 # clock cycles
+adc_busy_delay: 9 # clock cycles
+reset_cycles: 1 # clock cycles
+clock_cycle: 0.1 # us
+rollover_cycles: 2147483648 # clock cycles
+gain: 4 # uV/e-
+buffer_risetime: 0.100 # us
+v_cm: 288 # mV
+v_ref: 1300 # mV
+v_pedestal: 580 # mV
+adc_counts: 256
+reset_noise_charge: 900 # e-
+uncorrelated_noise_charge: 500 # e-
+discriminator_noise: 650 # e-
+event_rate: 100000 # us
