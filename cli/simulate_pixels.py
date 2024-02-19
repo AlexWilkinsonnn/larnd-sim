@@ -115,7 +115,7 @@ def run_simulation(input_filename,
             look-up table. Defaults to ../larndsim/bin/lightLUT.npy.
         physics_constants (str): path of the YAML file containing
             the physics constants
-        physics_constants (str): path of the YAML file containing
+        electronics_constants (str): path of the YAML file containing
             the electronics constants
         bad_channels (str, optional): path of the YAML file containing the channels to be
             disabled. Defaults to None
