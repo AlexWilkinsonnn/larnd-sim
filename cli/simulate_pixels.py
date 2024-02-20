@@ -303,9 +303,21 @@ def run_simulation(input_filename,
 
         pdg_dtype = np.dtype([("eventID","u4"), ("pdg","u4")])
         pdgs = np.empty(len(vertices), dtype=pdg_dtype)
-        throw_vals_dtype = np.dtype(
-            [("eventID","u4"), ("efield","f4"), ("trans_diffusion","f4"), ("lifetime","f4")]
-        )
+        throw_vals_dtype = np.dtype([
+            ("eventID","u4"),
+            ("efield","f4"),
+            ("trans_diffusion","f4"),
+            ("lifetime","f4"),
+            ("gain","f4"),
+            ("buffer_risetime","f4"),
+            ("v_cm","f4"),
+            ("v_ref","f4"),
+            ("v_pedestal","f4"),
+            ("reset_noise_charge","f4"),
+            ("uncorrelated_noise_charge","f4"),
+            ("discriminator_noise","f4"),
+            ("discrimination_threshold","f4")
+        ])
         throw_vals = np.empty(len(vertices), dtype=throw_vals_dtype)
 
         for i_vtx, vtx in enumerate(vertices):
@@ -313,9 +325,20 @@ def run_simulation(input_filename,
             pdgs[i_vtx]["pdg"] = pdg_label
 
             throw_vals[i_vtx]["eventID"] = vtx["eventID"]
+
             throw_vals[i_vtx]["efield"] = detector.E_FIELD
             throw_vals[i_vtx]["trans_diffusion"] = detector.TRAN_DIFF
             throw_vals[i_vtx]["lifetime"] = detector.ELECTRON_LIFETIME
+
+            throw_vals[i_vtx]["gain"] = electronics.GAIN
+            throw_vals[i_vtx]["buffer_risetime"] = electronics.BUFFER_RISETIME
+            throw_vals[i_vtx]["v_cm"] = electronics.V_CM
+            throw_vals[i_vtx]["v_ref"] = electronics.V_REF
+            throw_vals[i_vtx]["v_pedestal"] = electronics.V_PEDESTAL
+            throw_vals[i_vtx]["reset_noise_charge"] = electronics.RESET_NOISE_CHARGE
+            throw_vals[i_vtx]["uncorrelated_noise_charge"] = electronics.UNCORRELATED_NOISE_CHARGE
+            throw_vals[i_vtx]["discriminator_noise"] = electronics.DISCRIMINATOR_NOISE
+            throw_vals[i_vtx]["discrimination_threshold"] = electronics.DISCRIMINATION_THRESHOLD
 
         output_file.create_dataset("pdg_labels", data=pdgs)
         output_file.create_dataset("det_syst_throws", data=throw_vals)
