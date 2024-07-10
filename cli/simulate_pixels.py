@@ -25,7 +25,7 @@ from larndsim import consts
 from larndsim.cuda_dict import CudaDict
 
 SEED = int(time())
-BATCH_SIZE = 4000
+BATCH_SIZE = 500
 EVENT_BATCH_SIZE = 10
 
 LOGO = """
